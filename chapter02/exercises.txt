@@ -1,0 +1,18 @@
+Exercises: Parentheses and Association
+
+8 + 7 * 9 == 71
+(8 + 7) * 9 == 135
+
+perimeter x y = (x * 2) + (y * 2)
+perimeter2 x y = x * 2 + y * 2
+
+f x = x / 2 + 9
+f2 x = x / (2 + 9)
+
+
+Exercises: Heal the Sick
+1. let area x = 3.14 * (x * x)
+2. let double x = x * 2
+3. x = 7
+   y = 10
+   f = x + y
