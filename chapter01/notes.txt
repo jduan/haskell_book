@@ -49,4 +49,14 @@ Beta reduce
 4: yy
 5: yy
 6: aac
-??? 7: za or (lambda z1.za)
+7: (Lp.za)
+
+The 7th question is tricky. The key is find all the "free variables" first and
+rename "bound variables" to different names from the "free variables" so they
+aren't confused.
+
+(Lmnp.mp(np))(Lx.z)(Lx.a)
+so  m := (Lx.z)
+and n := (Lx.a)
+(Lp.(Lx.z)p((Lx.a)p))
+= (Lp.za)
