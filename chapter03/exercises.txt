@@ -1,0 +1,91 @@
+Exercises: Scope (page 74)
+
+1. yes
+2. no
+3. no
+4. yes
+
+Exercises: Syntax Errors (page 77)
+
+1. no
+(++) [1,2,3] [4,5,6]
+
+2. no
+"<3" ++ " Haskell"
+
+3. yes
+
+Chapter Exercises (page 82)
+
+1.
+a: yes
+concat [[1, 2, 3], [4, 5, 6]]
+
+b: no
+(++) [1,2,3] [4,5,6]
+
+c: yes
+(++) "hello" " world"
+
+d: no
+["hello" ++ " world"]
+
+e: no
+"hello" !! 4
+
+f: yes
+(!!) "hello" 4
+
+g: no
+take 4 "lovely"
+
+h: yes
+take 3 "awesome"
+
+
+2.
+
+a: [6, 12, 18]
+
+b: "rainbow"
+
+c: 10
+
+d: "Jules"
+
+e: [2, 3, 5, 6, 8, 9]
+
+3.
+
+
+
+Building functions
+
+1.
+
+a: "Curry is awesome" ++ "!"
+
+b: "Curry is awesome" !! 4
+
+c: drop 9 "Curry is awesome!"
+
+
+2. see "curry.hs"
+
+3.
+thirdLetter :: String -> Char
+thirdLetter x = x !! 2
+
+4.
+letterIndex :: Int -> Char
+letterIndex x = "Curry is awesome" !! x
+
+5.
+rvrs x =
+  let str = "Curry is awesome"
+      first = take 5 str
+      second = take 2 $ drop 6 str
+      third = take 7 $ drop 9 str
+   in third ++ " " ++ second ++ " " ++ first
+
+6. same as 5
