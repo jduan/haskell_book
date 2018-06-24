@@ -1,0 +1,277 @@
+Exercises: Type Matching
+
+Functions & Types
+not :: Bool -> Bool
+length :: [a] -> Int
+concat :: [[a]] -> [a]
+head :: [a] -> a
+< :: Ord a => a -> a -> Bool
+
+
+Exercises: Type Arguments
+
+1.  a)
+2. d)
+3. d)
+4. c)
+5. a)
+6. e)
+7. d)
+8. a)
+9. c)
+
+
+Exercises: Parametricity
+
+
+myid :: a -> a
+myid x = x
+
+f :: a -> a -> a
+-- f x y = x
+f x y = y
+
+f2 :: a -> b -> b
+f2 x y = y
+
+
+Exercises: Apply Yourself
+
+1.
+myConcat :: [Char] -> [Char]
+myConcat x = x ++ " yo"
+
+2.
+myMult :: Fractional a => a -> a
+myMult x = (x / 3) * 5
+
+3.
+myTake :: Int -> [Char]
+myTake x = take x "hey you"
+
+4.
+myCom :: Int -> Bool
+myCom x = x > (length [1..10])
+
+5.
+myAlph :: Char -> Bool
+myAlph x = x < 'z'
+
+
+Chapter Exercises
+
+Multiple choice
+
+1. c)
+2. a
+3. a b
+4. c
+
+
+Determine the type
+
+1.
+
+a :: Num a => a
+a = (* 9) 6
+
+b :: Num a => (a, String)
+b = head [(0, "doge"), (1, "kitteh")]
+
+c :: (Integer, String)
+c = head [(0 :: Integer, "doge"), (1, "kitteh")]
+
+d :: Bool
+d =
+  if False
+    then True
+    else False
+
+e :: Int
+e = length [1 .. 5]
+
+f :: Bool
+f = (length [1 .. 4]) > (length "TACOCAT")
+
+
+2.
+w :: Num a => a
+
+3.
+z :: Num a => a -> a
+z y = y * 10
+
+4.
+f2 :: Fractional a => a
+f2 = 4 / y
+
+5.
+f3 :: String
+f3 = x2 ++ y2 ++ z2
+
+
+Does it compile?
+
+1. no
+bigNum = (^) 5 $ 10
+wahoo = bigNum + 10
+
+2. yes
+x4 = print
+y4 = print "woohoo!"
+z4 = x4 "hello world"
+
+3. no
+a2 = (+)
+b2 = 5
+c2 = a2 10
+d2 = c2 200
+
+4. no
+a3 = 12 + b3
+b3 = 10000 * d2
+
+
+Type variable or specific type constructor?
+
+2. f :: zed -> Zed -> Blah
+
+zed: fully polymorphic
+Zed: concrete
+Blah: concrete
+
+3. f :: Enum b -> a -> b -> C
+a: fully polymorphic
+b: constrainted polymorphic
+C: concrete
+
+4. f :: f -> g -> C
+f: fully polymorphic
+g: fully polymorphic
+C: concrete
+
+
+Write a type signature
+
+
+1.
+functionH :: [a] -> a
+functionH (x:_) = x
+
+2.
+functionC :: (Ord a) => a -> a -> Bool
+functionC x y =
+  if (x > y)
+    then True
+    else False
+
+3.
+functionS :: (a, b) -> b
+functionS (x, y) = y
+
+
+Given a type, write the function
+
+i :: a -> a
+i x = x
+
+c :: a -> b -> a
+c x y = x
+
+c'' :: b -> a -> b
+c'' x y = x
+
+c' :: a -> b -> b
+c' x y = y
+
+r :: [a] -> [a]
+-- r xs = xs ++ xs
+r xs = tail xs
+
+co :: (b -> c) -> (a -> b) -> a -> c
+co bToC aToB a = bToC $ aToB a
+
+a :: (a -> c) -> a -> a
+a _ x = x
+
+a' :: (a -> b) -> a -> b
+a' f x = f x
+
+
+Fix it
+
+module FixIt where
+
+fstString :: [Char] -> [Char]
+fstString x = x ++ " in the rain"
+
+sndString :: [Char] -> [Char]
+sndString x = x ++ " over the rainbow"
+
+sing =
+  if (x > y)
+    then fstString x
+    else sndString y
+  where
+    x = "Singin"
+    y = "Somewhere"
+
+-- 2. change > to <
+main :: IO ()
+main = do
+  print (1 + 2)
+  putStrLn "10"
+  print (negate (-1))
+  print ((+) 0 blah)
+  where
+    blah = negate 1
+
+
+Type-Kwon-Do
+
+
+module TypeKwonDo where
+
+f :: Int -> String
+f = undefined
+
+g :: String -> Char
+g = undefined
+
+h :: Int -> Char
+h x = g $ f x
+
+data A
+
+data B
+
+data C
+
+q :: A -> B
+q = undefined
+
+w :: B -> C
+w = undefined
+
+e :: A -> C
+e x = w $ q x
+
+data X
+
+data Y
+
+data Z
+
+xz :: X -> Z
+xz = undefined
+
+yz :: Y -> Z
+yz = undefined
+
+xform :: (X, Y) -> (Z, Z)
+xform (x, y) = (xz x, yz y)
+
+munge :: (x -> y) -> (y -> (w, z)) -> x -> w
+munge xToY yToWZ x =
+  let (w, z) = yToWZ $ xToY x
+   in w
