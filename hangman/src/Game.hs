@@ -15,7 +15,7 @@ data Puzzle =
 
 instance Show Puzzle where
   show (Puzzle _ discovered guessed) =
-    intersperse ' ' $ fmap renderPuzzleChar discovered ++ " Guessed so far: " ++ guessed
+    intersperse ' ' (fmap renderPuzzleChar discovered) ++ "  Guessed so far: " ++ guessed
 
 freshPuzzle :: String -> Puzzle
 freshPuzzle word = Puzzle word discovered guessed
@@ -58,14 +58,14 @@ handleGuess puzzle guess = do
 
 gameOver :: Puzzle -> IO ()
 gameOver (Puzzle word _ guessed) =
-  when length guessed > 7 $ do
+  when (length guessed > 7) $ do
     putStrLn "You lose!"
     putStrLn $ "The word was: " ++ word
     exitSuccess
 
 gameWin :: Puzzle -> IO ()
 gameWin (Puzzle _ filledInSoFar _) =
-  when all isJust filledInSoFar $ do
+  when (all isJust filledInSoFar) $ do
     putStrLn "You win!"
     exitSuccess
 
