@@ -1,5 +1,9 @@
 module Words where
 
+import System.Random (randomRIO)
+
+type WordList = [String]
+
 allWords :: IO WordList
 allWords = do
   dict <- readFile "data/dict.txt"
