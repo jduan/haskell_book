@@ -1,4 +1,7 @@
-module Game where
+module Game
+  ( freshPuzzle
+  , runGame
+  ) where
 
 import Control.Monad (forever, when)
 import Data.List (intersperse)

@@ -1,9 +1,12 @@
-module Words where
+module Words
+  ( randomWord'
+  ) where
 
 import System.Random (randomRIO)
 
 type WordList = [String]
 
+-- Return a list of strings/words from the dictionary.
 allWords :: IO WordList
 allWords = do
   dict <- readFile "data/dict.txt"
@@ -15,6 +18,7 @@ minWordLength = 5
 maxWordLength :: Int
 maxWordLength = 9
 
+-- Return a list of words between [minWordLength, maxWordLength]
 gameWords :: IO WordList
 gameWords = do
   aw <- allWords
@@ -24,6 +28,7 @@ gameWords = do
       let l = length (w :: String)
        in l > minWordLength && l < maxWordLength
 
+-- Return a random word from the words
 randomWord :: WordList -> IO String
 randomWord wl = do
   randomIndex <- randomRIO (0, length wl - 1)
