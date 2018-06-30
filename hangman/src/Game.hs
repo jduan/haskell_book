@@ -20,22 +20,29 @@ instance Show Puzzle where
   show (Puzzle _ discovered guessed) =
     intersperse ' ' (fmap renderPuzzleChar discovered) ++ "  Guessed so far: " ++ guessed
 
+-- Generate a fresh puzzle given a word
+-- "discovered" is initialized to a list of Nothing
+-- "guessed" is initialized to an empty list
 freshPuzzle :: String -> Puzzle
 freshPuzzle word = Puzzle word discovered guessed
   where
     discovered = map (const Nothing) word
     guessed = []
 
+-- Check if a char is in the puzzle or not
 charInWord :: Puzzle -> Char -> Bool
 charInWord (Puzzle word _ _) char = char `elem` word
 
+-- Check if a char is already guessed or not
 alreadyGuessed :: Puzzle -> Char -> Bool
 alreadyGuessed (Puzzle _ _ guessed) char = char `elem` guessed
 
+-- Render a "char" in the discovered list of chars
 renderPuzzleChar :: Maybe Char -> Char
 renderPuzzleChar Nothing = '_'
 renderPuzzleChar (Just char) = char
 
+-- Given a char, fill it in the puzzle. Update "discovered" and "guessed"
 fillInCharacter :: Puzzle -> Char -> Puzzle
 fillInCharacter (Puzzle word filledInSoFar s) c = Puzzle word newFilledInSoFar (c : s)
   where
@@ -45,6 +52,7 @@ fillInCharacter (Puzzle word filledInSoFar s) c = Puzzle word newFilledInSoFar (
         else guessChar
     newFilledInSoFar = zipWith zipper word filledInSoFar
 
+-- Ask the user for a char, and return a new puzzle.
 handleGuess :: Puzzle -> Char -> IO Puzzle
 handleGuess puzzle guess = do
   putStrLn $ "Your guess was: " ++ [guess]
@@ -59,6 +67,7 @@ handleGuess puzzle guess = do
       putStrLn "This character wasn't in the word, try again."
       return (fillInCharacter puzzle guess)
 
+-- Exit the game if too many guesses have been made
 gameOver :: Puzzle -> IO ()
 gameOver (Puzzle word _ guessed) =
   when (length guessed > 7) $ do
@@ -66,12 +75,14 @@ gameOver (Puzzle word _ guessed) =
     putStrLn $ "The word was: " ++ word
     exitSuccess
 
+-- Finish the game if the word has been guessed
 gameWin :: Puzzle -> IO ()
 gameWin (Puzzle _ filledInSoFar _) =
   when (all isJust filledInSoFar) $ do
     putStrLn "You win!"
     exitSuccess
 
+-- Start a game and recusively iterate on the game
 runGame :: Puzzle -> IO ()
 runGame puzzle =
   forever $ do
