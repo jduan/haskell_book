@@ -11,3 +11,51 @@ compare "Julie" True
 
 4. yes
 (5 + 3) > (3 + 6)
+
+
+Chapter Exercises
+
+Multiple choice
+
+1. c
+2. b
+3. a
+4. c
+5. a
+
+
+Does it typecheck?
+
+1. no because Person isn't an instance of Show
+
+2. no because Mood isn't an instance of Eq
+
+3. settleDown :: Mood -> Mood
+a) Mood
+b) type error
+c) error because Mood isn't an instance of Ord
+
+4. yes it will type check but you can't "print s1" because s1 is a function
+s1 :: Object -> Sentence
+
+
+Given a datatype declaration, what can we do?
+
+1. no
+phew = Papu (Rocks "chases") (Year True)
+
+2. yes
+truth = Papu (Rocks "chomskydoz") (Yeah True)
+
+3. yes
+equalityForall :: Papu -> Papu -> Bool
+equalityForall p p' = p == p'
+
+4. no. You need to make Papu, Rocks, Yeah implement Ord.
+comparePapus :: Papu -> Papu -> Bool
+comparePapus p p' = p > p'
+
+
+Match the types
+
+
