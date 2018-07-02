@@ -14,6 +14,7 @@ data DayOfWeek
   | Fri
   | Sat
   | Sun
+  deriving (Ord, Show)
 
 instance Eq DayOfWeek where
   (==) Mon Mon = True

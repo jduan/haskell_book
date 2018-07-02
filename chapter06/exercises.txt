@@ -1,0 +1,13 @@
+Exercises: Will They Work?
+
+1. yes
+max (length [1, 2, 3]) (length [8, 9, 10, 11, 12])
+
+2. yes
+compare (3 * 4) (3 * 5)
+
+3. type error
+compare "Julie" True
+
+4. yes
+(5 + 3) > (3 + 6)
