@@ -65,3 +65,27 @@ nums x =
     LT -> -1
     GT -> 1
     EQ -> 0
+
+
+Exercises: artful dodgy
+
+*Exercises> dodgy 1 0
+1
+*Exercises> dodgy 1 1
+11
+*Exercises> dodgy 2 2
+22
+*Exercises> dodgy 1 2
+21
+*Exercises> oneIsOne 1
+11
+*Exercises> oneIsOne 2
+21
+*Exercises> oneIsTwo 1
+21
+*Exercises> oneIsTwo 2
+22
+*Exercises> oneIsOne 3
+31
+*Exercises> oneIsTwo 3
+23

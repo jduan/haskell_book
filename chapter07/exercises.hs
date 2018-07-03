@@ -40,3 +40,9 @@ nums x =
     LT -> -1
     GT -> 1
     EQ -> 0
+
+dodgy x y = x + y * 10
+
+oneIsOne = dodgy 1
+
+oneIsTwo = (flip dodgy) 2
