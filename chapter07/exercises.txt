@@ -89,3 +89,29 @@ Exercises: artful dodgy
 31
 *Exercises> oneIsTwo 3
 23
+
+
+Exercises: Guard Duty
+
+1. they all evaluate to 'F'
+
+2. it returns 'C' now
+
+3. b
+
+4.
+pal :: Eq a => [a] -> Bool
+
+5.
+pal :: Eq a => [a] -> Bool
+
+6. c
+
+7.
+numbers :: (Ord a, Num a, Num p) => a -> p
+numbers x
+  | x < 0 = -1
+  | x == 0 = 0
+  | x > 0 = 1
+
+8. same as above
