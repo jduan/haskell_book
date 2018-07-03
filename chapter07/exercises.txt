@@ -30,3 +30,16 @@ mflip2 f x y = f y x
 
 
 
+Exercises: Variety Pack
+
+1.
+k :: (a, b) -> a
+k1 :: Enum a => a
+k2 :: [Char]
+k3 :: Enum a => a
+
+c) k1 and k2 are 3
+
+2.
+f :: (a, b, c) -> (d, e, f) -> ((a, d), (c, f))
+f (a, b, c) (d, e, f) = ((a, d), (c, f))
