@@ -115,3 +115,27 @@ numbers x
   | x > 0 = 1
 
 8. same as above
+
+
+Chapter Exercises
+
+Multiple Choice
+
+1. d
+2. b
+3. d
+4. b
+5. a
+
+
+Let's write code
+See "exercises.hs"
+
+6.
+*Exercises> :t roundTrip 4
+roundTrip 4 :: Read b => b
+
+*Exercises> print (roundTrip 4)
+*** Exception: Prelude.read: no parse
+
+*Exercises> print (roundTrip 4 :: Int)
