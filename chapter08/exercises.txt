@@ -10,3 +10,16 @@ Review of types
 Reviewing currying
 
 
+  print (appedCatty "woohoo!" == "woops mrow woohoo!")
+  print (flappe "1" == "1 mrow haha")
+  print (flappe (appedCatty "2") == "woops mrow 2 mrow haha")
+  print (appedCatty (flappe "blue") == "woops mrow blue mrow haha")
+  print
+    (cattyConny (flappe "pink") (cattyConny "green" (appedCatty "blue")) ==
+     "pink mrow haha mrow green mrow woops mrow blue")
+  print (cattyConny (flippy "Pugs" "are") "awesome" == "are mrow Pugs mrow awesome")
+
+
+Recurision
+
+
