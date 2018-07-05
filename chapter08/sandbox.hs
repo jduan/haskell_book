@@ -58,3 +58,17 @@ main = do
     (cattyConny (flappe "pink") (cattyConny "green" (appedCatty "blue")) ==
      "pink mrow haha mrow green mrow woops mrow blue")
   print (cattyConny (flippy "Pugs" "are") "awesome" == "are mrow Pugs mrow awesome")
+
+sumR :: (Eq a, Num a) => a -> a
+sumR n = go n 0
+  where
+    go i total
+      | i == 1 = total + 1
+      | otherwise = go (i - 1) (total + i)
+
+multiply :: (Integral a) => a -> a -> a
+multiply m n = go m n 0
+  where
+    go m n total
+      | m == 1 = total + n
+      | otherwise = go (m - 1) n (total + n)

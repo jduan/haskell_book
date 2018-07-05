@@ -22,4 +22,29 @@ Reviewing currying
 
 Recurision
 
+1.
+go 15 2 0
+go 13 2 1
+go 11 2 2
+go 9 2 3
+go 7 2 4
+go 5 2 5
+go 3 2 6
+go 1 2 7
+return (7, 1)
 
+2.
+sumR :: (Eq a, Num a) => a -> a
+sumR n = go 1 0
+  where
+    go i total
+      | i == n = total + n
+      | otherwise = go (i + 1) (total + i)
+
+3.
+multiply :: (Integral a) => a -> a -> a
+multiply m n = go m n 0
+  where
+    go m n total
+      | m == 1 = total + n
+      | otherwise = go (m - 1) n (total + n)
