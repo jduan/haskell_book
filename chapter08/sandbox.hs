@@ -26,18 +26,23 @@ fibonacci 0 = 0
 fibonacci 1 = 1
 fibonacci x = fibonacci (x - 1) + fibonacci (x - 2)
 
-dividedBy :: Integral a => a -> a -> (a, a)
+-- data DividedByData =
+--   Maybe (Integer, Integer)
+--
+-- dividedBy :: Integral a => a -> a -> DividedByData
+dividedBy :: (Ord t, Num a, Num t) => t -> t -> Maybe (a, t)
 dividedBy num denom
+  | denom == 0 = Nothing
   | num < 0 && denom > 0 =
     let (a, b) = go (abs (num - 2)) denom 0
-     in (negate a, b)
+     in Just (negate a, b)
   | num > 0 && denom < 0 =
     let (a, b) = go (num + 2) (negate denom) 0
-     in (negate a, negate b)
+     in Just (negate a, negate b)
   | num < 0 && denom < 0 =
     let (a, b) = go (negate num) (negate denom) 0
-     in (a, negate b)
-  | otherwise = go num denom 0
+     in Just (a, negate b)
+  | otherwise = Just (go num denom 0)
   where
     go n d count
       | n < d = (count, n)
