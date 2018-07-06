@@ -27,7 +27,17 @@ fibonacci 1 = 1
 fibonacci x = fibonacci (x - 1) + fibonacci (x - 2)
 
 dividedBy :: Integral a => a -> a -> (a, a)
-dividedBy num denom = go num denom 0
+dividedBy num denom
+  | num < 0 && denom > 0 =
+    let (a, b) = go (abs (num - 2)) denom 0
+     in (negate a, b)
+  | num > 0 && denom < 0 =
+    let (a, b) = go (num + 2) (negate denom) 0
+     in (negate a, negate b)
+  | num < 0 && denom < 0 =
+    let (a, b) = go (negate num) (negate denom) 0
+     in (a, negate b)
+  | otherwise = go num denom 0
   where
     go n d count
       | n < d = (count, n)

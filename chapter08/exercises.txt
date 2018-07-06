@@ -48,3 +48,6 @@ multiply m n = go m n 0
     go m n total
       | m == 1 = total + n
       | otherwise = go (m - 1) n (total + n)
+
+
+Fixing dividedBy
