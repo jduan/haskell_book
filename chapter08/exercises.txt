@@ -51,3 +51,35 @@ multiply m n = go m n 0
 
 
 Fixing dividedBy
+
+dividedBy :: (Ord t, Num a, Num t) => t -> t -> Maybe (a, t)
+dividedBy num denom
+  | denom == 0 = Nothing
+  | num < 0 && denom > 0 =
+    let (a, b) = go (abs (num - 2)) denom 0
+     in Just (negate a, b)
+  | num > 0 && denom < 0 =
+    let (a, b) = go (num + 2) (negate denom) 0
+     in Just (negate a, negate b)
+  | num < 0 && denom < 0 =
+    let (a, b) = go (negate num) (negate denom) 0
+     in Just (a, negate b)
+  | otherwise = Just (go num denom 0)
+  where
+    go n d count
+      | n < d = (count, n)
+      | otherwise = go (n - d) d (count + 1)
+
+
+McCarthy 91 function
+
+
+mc91 :: Integral a => a -> a
+mc91 n
+  | n > 100 = n - 10
+  | otherwise = mc91 $ mc91 $ n + 11
+
+
+Numbers into words
+
+see WordNumber.hs

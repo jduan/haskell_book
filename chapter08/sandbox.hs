@@ -87,3 +87,8 @@ multiply m n = go m n 0
     go m n total
       | m == 1 = total + n
       | otherwise = go (m - 1) n (total + n)
+
+mc91 :: Integral a => a -> a
+mc91 n
+  | n > 100 = n - 10
+  | otherwise = mc91 $ mc91 $ n + 11
