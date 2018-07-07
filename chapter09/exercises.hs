@@ -58,3 +58,16 @@ thirdSen = "What immortal hand or eye\n"
 fourthSen = "Could frame thy fearful symmetry?"
 
 sentences = firstSen ++ secondSen ++ thirdSen ++ fourthSen
+
+-- Comprehend the lists
+-- mySqr: [1, 4, 9, 16, 25]
+mySqr = [x ^ 2 | x <- [1 .. 5]]
+
+-- [4, 16]
+lst1 = [x | x <- mySqr, rem x 2 == 0]
+
+-- []
+lst2 = [(x, y) | x <- mySqr, y <- mySqr, x < 50, y > 50]
+
+-- []
+lst3 = take 5 lst2
