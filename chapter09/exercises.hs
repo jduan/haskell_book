@@ -71,3 +71,15 @@ lst2 = [(x, y) | x <- mySqr, y <- mySqr, x < 50, y > 50]
 
 -- []
 lst3 = take 5 lst2
+
+-- Return acronyms
+acro xs = [x | x <- xs, x `elem` ['A' .. 'Z']]
+
+-- Square Cube
+--
+--
+myCube = [y ^ 3 | y <- [1 .. 5]]
+
+tuples = [(x, y) | x <- mySqr, y <- myCube]
+
+tuples2 = [(x, y) | x <- mySqr, y <- myCube, x < 50, y < 50]
