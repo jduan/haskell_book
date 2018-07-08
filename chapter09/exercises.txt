@@ -74,3 +74,19 @@ map sum [[1..5], [1..5], [1..5]]
 6.
 map (\x -> if x == 3 then (-x) else x) [1..10]
 map (\x -> bool x (-x) (x == 3)) [1..10]
+
+
+Exercises: Filtering
+
+
+1.
+filter (\x -> (rem x 3) == 0) [1..30]
+
+2.
+length $ filter (\x -> (rem x 3) == 0) [1..30]
+
+3.
+myFilter :: String -> [String]
+myFilter sentence = dropArticles $ words sentence
+  where
+    dropArticles = filter (\x -> x `notElem` ["the", "a", "an"])
