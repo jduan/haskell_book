@@ -1,3 +1,5 @@
+module Exercises where
+
 eftBool :: Bool -> Bool -> [Bool]
 eftBool False True = [False, True]
 eftBool True False = []
