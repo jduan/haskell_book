@@ -23,3 +23,19 @@ f) foldl const 'a' [1..5]
 g) foldl const 0 "tacos"
 h) foldr (flip const) 0 "burritos"
 i) foldr (flip const) 'z' [1..5]
+
+
+!!! I don't understand how this works?
+fibs = 1 : scanl (+) 1 fibs
+
+
+Scan Exercises
+
+1.
+fibs = take 20 $ 1 : scanl (+) 1 fibs
+
+2.
+fibs = takeWhile (< 100) $ 1 : scanl (+) 1 fibs
+
+3.
+factorial = scanl (*) 1 $ [1..]
