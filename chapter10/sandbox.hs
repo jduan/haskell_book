@@ -20,3 +20,9 @@ showFoldr =
 showFoldl =
   let xs = map show [1 .. 5]
    in foldl (\y x -> concat ["(", y, "+", x, ")"]) "0" xs
+
+-- Take the first 3 letters of each string value in a list of strings and
+-- concatenate that result into a final string
+firstThreeLetters xs = foldr f "" xs
+  where
+    f x acc = take 3 x ++ acc
