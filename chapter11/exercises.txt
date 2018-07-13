@@ -1,0 +1,22 @@
+Exercises: Dog Types
+
+1. Doggies is a type constructor
+
+2. :kind Doggies
+Doggies :: * -> *
+
+3. :kind Doggies String
+Doggies String :: *
+
+4. :t Husky 10
+Husky 10 :: Num a => Doggies a
+
+5. Doggies Integer
+
+6. Doggies String
+
+7. depends on where/how it's used
+
+8. DogueDeBordeaux :: doge -> DogueDeBordeaux doge
+
+9. DogueDeBordeaux String
