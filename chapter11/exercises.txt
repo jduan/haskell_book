@@ -20,3 +20,32 @@ Husky 10 :: Num a => Doggies a
 8. DogueDeBordeaux :: doge -> DogueDeBordeaux doge
 
 9. DogueDeBordeaux String
+
+
+Exercises: Vehicles
+
+1. type of myCar is Vehicle
+
+2.
+isCar :: Vehicle -> Bool
+isCar (Car _ _) = True
+isCar _ = False
+
+isPlane :: Vehicle -> Bool
+isPlane (Plane _) = True
+isPlane _ = False
+
+areCars :: [Vehicle] -> [Bool]
+areCars = map isCar
+
+3.
+getManu :: Vehicle -> Manufacturer
+getManu (Car m _) = m
+getManu _ = error "not a car"
+
+4.
+error out
+
+5. need to change
+* isPlane
+* doge
