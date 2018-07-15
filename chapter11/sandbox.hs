@@ -104,3 +104,15 @@ data Example2 =
 data MyType =
   MyVal Int
   deriving (Show, Eq)
+
+data Example =
+  MakeExample
+  deriving (Show)
+
+data Example' =
+  MakeExample' Int
+  deriving (Show, Eq)
+
+data Goats =
+  Goats Int
+  deriving (Show, Eq)

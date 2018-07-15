@@ -49,3 +49,31 @@ error out
 5. need to change
 * isPlane
 * doge
+
+
+Exercises: Cardinality
+
+1. Cardinality: 1
+
+2. Cardinality: 3
+
+3. Cardinality: 65536
+
+4.
+Int: Cardinality: (2 ^ 64) = 18446744073709551616
+Integer: infinite
+
+5. 2 ^ 8 = 256
+
+
+Exercises: For Example
+
+1.
+type of MakeExample is Example
+it says "Data Constructor not in scope: Example"
+
+2.
+typeclass: Show
+
+3.
+MakeExample :: Int -> Example
