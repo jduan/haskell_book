@@ -82,3 +82,25 @@ areCars = map isCar
 getManu :: Vehicle -> Manufacturer
 getManu (Car m _) = m
 getManu _ = error "not a car"
+
+-- Data constructor arities
+--
+-- nullary
+data Example0 =
+  Example0
+  deriving (Show, Eq)
+
+-- unary
+data Example1 =
+  Example1 Int
+  deriving (Show, Eq)
+
+-- product of Int and String
+data Example2 =
+  Example2 Int
+           String
+  deriving (Show, Eq)
+
+data MyType =
+  MyVal Int
+  deriving (Show, Eq)
