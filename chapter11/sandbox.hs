@@ -113,6 +113,22 @@ data Example' =
   MakeExample' Int
   deriving (Show, Eq)
 
-data Goats =
+newtype Goats =
   Goats Int
   deriving (Show, Eq)
+
+newtype Cows =
+  Cows Int
+  deriving (Show, Eq)
+
+tooManyGoats :: Goats -> Bool
+tooManyGoats (Goats n) = n > 42
+
+class TooMany a where
+  tooMany :: a -> Bool
+
+instance TooMany Int where
+  tooMany n = n > 42
+
+instance TooMany Goats where
+  tooMany (Goats n) = n > 43
