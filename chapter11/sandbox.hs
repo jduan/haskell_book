@@ -1,4 +1,5 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
+{-# LANGUAGE FlexibleInstances #-}
 
 module Sandbox where
 
@@ -133,7 +134,22 @@ newtype Cows =
 
 tooManyGoats :: Goats -> Bool
 tooManyGoats (Goats n) = n > 42
+
 --
 -- instance TooMany Goats where
 --   tooMany (Goats n) = n > 43
 --
+-- Exercises: Logic Goats
+--
+-- 1.
+type IntString = (Int, String)
+
+instance TooMany (Int, String) where
+  tooMany (n, s) = n > 42
+
+instance TooMany (Int, Int) where
+  tooMany (x, y) = x + y > 42
+
+-- I don't fully understand how to use this
+instance (Num a, TooMany a) => TooMany (a, a) where
+  tooMany (x, y) = tooMany x || tooMany y
