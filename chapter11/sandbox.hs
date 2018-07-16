@@ -1,3 +1,5 @@
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
+
 module Sandbox where
 
 data PugType =
@@ -113,9 +115,17 @@ data Example' =
   MakeExample' Int
   deriving (Show, Eq)
 
+class TooMany a where
+  tooMany :: a -> Bool
+
+instance TooMany Int where
+  tooMany n = n > 42
+
+-- With the GeneralizedNewtypeDeriving pragma, we don't need to define
+-- an instance for the TooMany typeclass since Int defines it.
 newtype Goats =
   Goats Int
-  deriving (Show, Eq)
+  deriving (Show, Eq, TooMany)
 
 newtype Cows =
   Cows Int
@@ -123,12 +133,7 @@ newtype Cows =
 
 tooManyGoats :: Goats -> Bool
 tooManyGoats (Goats n) = n > 42
-
-class TooMany a where
-  tooMany :: a -> Bool
-
-instance TooMany Int where
-  tooMany n = n > 42
-
-instance TooMany Goats where
-  tooMany (Goats n) = n > 43
+--
+-- instance TooMany Goats where
+--   tooMany (Goats n) = n > 43
+--
