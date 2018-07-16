@@ -93,3 +93,16 @@ instance TooMany (Int, Int) where
 -- I don't fully understand how to use this
 instance (Num a, TooMany a) => TooMany (a, a) where
   tooMany (x, y) = tooMany x || tooMany y
+
+
+Exercises: Pity the Bool
+
+1.
+Big Bool = 2
+Small Bool = 2
+total: 4
+
+2.
+Numba Int8 = 256
+BoolyBool Bool = 2
+total: 258
