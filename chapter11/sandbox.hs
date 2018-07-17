@@ -153,3 +153,24 @@ instance TooMany (Int, Int) where
 -- I don't fully understand how to use this
 instance (Num a, TooMany a) => TooMany (a, a) where
   tooMany (x, y) = tooMany x || tooMany y
+
+data Person =
+  MkPerson String
+           Int
+  deriving (Show, Eq)
+
+-- record syntax
+-- Defining a record means that there are now named record field accessors.
+-- They're just functions that go from the product type to a member of
+-- product.
+-- name :: Person2 -> String
+-- age :: Person2 -> Int
+--
+data Person2 = Person2
+  { name :: String
+  , age :: Int
+  } deriving (Show, Eq)
+
+p1 = Person2 "Papu" 5
+-- name p1
+-- age p1
