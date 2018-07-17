@@ -31,7 +31,7 @@ Does it typecheck?
 2. no because Mood isn't an instance of Eq
 
 3. settleDown :: Mood -> Mood
-a) Mood
+a) Blah and Woot
 b) type error
 c) error because Mood isn't an instance of Ord
 
