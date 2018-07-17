@@ -172,5 +172,49 @@ data Person2 = Person2
   } deriving (Show, Eq)
 
 p1 = Person2 "Papu" 5
+
 -- name p1
 -- age p1
+--
+data Fiction =
+  Fiction
+  deriving (Show, Eq)
+
+data Nonfiction =
+  Nonfiction
+  deriving (Show, Eq)
+
+data BookType
+  = FictionBook Fiction
+  | NonfictionBook Nonfiction
+  deriving (Show, Eq)
+
+type AuthorName = String
+
+data Author =
+  Author (AuthorName, BookType)
+  deriving (Show, Eq)
+
+--
+--   distributive property
+--   a * (b + c) -> (a * b) + (a * c)
+-- Product types distribute over sum types!
+-- AuthorName * BookType
+--      = AuthorName * (FictionBook + NonfictionBook)
+--      = AuthorName * FictionBook + AuthorName * NonfictionBook
+--
+-- In other words, "Author" and "Author2" are the same type.
+data Author2
+  = Fiction2 AuthorName
+  | Nonfiction2 AuthorName
+  deriving (Show, Eq)
+
+data Expr
+  = Number Int
+  | Add Expr
+        Expr
+  | Minus Expr
+  | Mult Expr
+         Expr
+  | Divide Expr
+           Expr
