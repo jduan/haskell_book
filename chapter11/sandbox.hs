@@ -218,3 +218,152 @@ data Expr
          Expr
   | Divide Expr
            Expr
+
+data GuessWhat =
+  Chickenbutt
+  deriving (Show, Eq)
+
+data Id a =
+  MkId a
+  deriving (Show, Eq)
+
+data Product a b =
+  Product a
+          b
+  deriving (Show, Eq)
+
+data Sum a b
+  = First a
+  | Second b
+  deriving (Show, Eq)
+
+data RecordProduct a b = RecordProduct
+  { pfirst :: a
+  , psecond :: b
+  } deriving (Show, Eq)
+
+newtype NumCow =
+  NumCow Int
+  deriving (Show, Eq)
+
+newtype NumPig =
+  NumPig Int
+  deriving (Show, Eq)
+
+data Farmhouse =
+  Farmhouse NumCow
+            NumPig
+  deriving (Show, Eq)
+
+-- product type: Farmhouse' is equivalent to Farmhouse
+-- Farmhouse' is a type alias.
+type Farmhouse' = Product NumCow NumPig
+
+farmhouse1 :: Farmhouse
+farmhouse1 = Farmhouse (NumCow 3) (NumPig 5)
+
+farmhouse2 :: Product NumCow NumPig
+farmhouse2 = Product (NumCow 3) (NumPig 5)
+
+newtype NumSheep =
+  NumSheep Int
+  deriving (Show, Eq)
+
+data BigFarmhouse =
+  BigFarmhouse NumCow
+               NumPig
+               NumSheep
+  deriving (Show, Eq)
+
+-- product type: BigFarmhouse' is equivalent to BigFarmhouse
+-- You can nest "Product" as deepely as you wish
+type BigFarmhouse' = Product NumCow (Product NumPig NumSheep)
+
+bigFarmhouse1 :: BigFarmhouse
+bigFarmhouse1 = BigFarmhouse (NumCow 1) (NumPig 2) (NumSheep 3)
+
+bigFarmhouse2 :: BigFarmhouse'
+bigFarmhouse2 = Product (NumCow 1) (Product (NumPig 2) (NumSheep 3))
+
+type Name = String
+
+type Age = Int
+
+type LovesMud = Bool
+
+type PoundsOfWool = Int
+
+data CowInfo =
+  CowInfo Name
+          Age
+  deriving (Show, Eq)
+
+data PigInfo =
+  PigInfo Name
+          Age
+          LovesMud
+  deriving (Show, Eq)
+
+data SheepInfo =
+  SheepInfo Name
+            Age
+            PoundsOfWool
+  deriving (Show, Eq)
+
+data Animal
+  = Cow CowInfo
+  | Pig PigInfo
+  | Sheep SheepInfo
+  deriving (Show, Eq)
+
+-- sum type: Animal' is equivalent to Animal
+data Animal' =
+  Sum CowInfo
+      (Sum PigInfo SheepInfo)
+
+animal1 :: Animal
+animal1 = Cow (CowInfo "peppa" 5)
+
+animal2 :: Sum CowInfo b
+-- Notice that you can also assign it to a more granular type
+-- animal2 :: Sum CowInfo PigInfo
+animal2 = First (CowInfo "george" 3)
+
+animal3 :: Sum a (Sum PigInfo b)
+-- same here
+-- animal3 :: Sum String (Sum PigInfo Bool)
+-- even
+-- animal3 :: Sum CowInfo (Sum PigInfo SheepInfo)
+-- But the following doesn't work!
+-- animal3 :: Animal'
+animal3 = Second (First (PigInfo "peppa" 8 True))
+
+--
+-- constructing values
+--
+trivialValue :: GuessWhat
+trivialValue = Chickenbutt
+
+idInt :: Id Integer
+idInt = MkId 10
+
+-- Functions are values too so you can make the 'a' parameter of 'Id'
+-- a function too!
+idIdentify :: Id (a -> a)
+idIdentify = MkId $ \x -> x
+
+type Awesome = Bool
+
+person :: Product Name Awesome
+person = Product "Simon" True
+
+data Twitter =
+  Twitter
+  deriving (Show, Eq)
+
+data AskFm =
+  AskFm
+  deriving (Show, Eq)
+
+socialNetwork :: Sum Twitter AskFm
+socialNetwork = First Twitter
