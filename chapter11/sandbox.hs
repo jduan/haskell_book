@@ -415,3 +415,23 @@ allProgrammers =
   | os <- allOperatingSystems
   , lang <- allLanguages
   ]
+
+data ThereYet =
+  There Integer
+        Float
+        String
+        Bool
+  deriving (Show, Eq)
+
+-- who needs a "builder pattern"?
+nope :: Float -> String -> Bool -> ThereYet
+nope = There 10
+
+notYet :: String -> Bool -> ThereYet
+notYet = nope 25.5
+
+notQuite :: Bool -> ThereYet
+notQuite = notYet "woohoo"
+
+yussss :: ThereYet
+yussss = notQuite False
