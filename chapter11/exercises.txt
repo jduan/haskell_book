@@ -106,3 +106,24 @@ total: 4
 Numba Int8 = 256
 BoolyBool Bool = 2
 total: 258
+
+
+Function type is exponential
+
+Given a function a -> b, we can calculate the inhabitants with the formula b^a.
+
+For a -> b -> c, we get (c ^ b) ^ a == c ^ (b * a) inhabitants.
+
+For example:
+
+data Quantum
+  = Yes
+  | No
+  | Both
+  deriving (Show, Eq)
+
+convert :: Quantum -> Bool
+convert = undefined
+
+According to a -> b and b^a, there should be 2^3 or 8 implementations of this
+function.
