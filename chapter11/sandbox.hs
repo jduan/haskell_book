@@ -334,7 +334,7 @@ animal3 :: Sum a (Sum PigInfo b)
 -- animal3 :: Sum String (Sum PigInfo Bool)
 -- even
 -- animal3 :: Sum CowInfo (Sum PigInfo SheepInfo)
--- But the following doesn't work!
+-- But the following doesn't work! Why???
 -- animal3 :: Animal'
 animal3 = Second (First (PigInfo "peppa" 8 True))
 
@@ -367,3 +367,51 @@ data AskFm =
 
 socialNetwork :: Sum Twitter AskFm
 socialNetwork = First Twitter
+
+myRecord :: RecordProduct Integer Float
+myRecord = RecordProduct 42 0.001
+
+myRecord2 :: RecordProduct Integer Float
+myRecord2 = RecordProduct {pfirst = 42, psecond = 0.001}
+
+data OperationSystem
+  = Linux
+  | OpenBSD
+  | Mac
+  | Windows
+  deriving (Show, Eq)
+
+data ProgrammingLanguage
+  = Haskell
+  | Agda
+  | Idris
+  | PureScript
+  deriving (Show, Eq)
+
+data Programmer = Programmer
+  { os :: OperationSystem
+  , lang :: ProgrammingLanguage
+  } deriving (Show, Eq)
+
+nineToFive :: Programmer
+nineToFive = Programmer {os = Mac, lang = Haskell}
+
+-- We can reorder stuff when we use record syntax
+feelingWizardly :: Programmer
+feelingWizardly = Programmer {lang = Agda, os = Linux}
+
+--
+-- Exercises: Programmers
+--
+allOperatingSystems :: [OperationSystem]
+allOperatingSystems = [Linux, OpenBSD, Mac, Windows]
+
+allLanguages :: [ProgrammingLanguage]
+allLanguages = [Haskell, Agda, Idris, PureScript]
+
+allProgrammers :: [Programmer]
+allProgrammers =
+  [ Programmer {os = os, lang = lang}
+  | os <- allOperatingSystems
+  , lang <- allLanguages
+  ]
