@@ -435,3 +435,22 @@ notQuite = notYet "woohoo"
 
 yussss :: ThereYet
 yussss = notQuite False
+
+data Silly a b c d =
+  MkSilly a
+          b
+          c
+          d
+  deriving (Show, Eq)
+
+-- :&: is an infix data constructor
+data Product2 a b =
+  a :&: b
+  deriving (Show, Eq)
+
+-- an alternative way of defining the List type
+data List a
+  = Nil
+  | Cons a
+         (List a)
+  deriving (Show, Eq)
