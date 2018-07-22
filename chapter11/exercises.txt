@@ -127,3 +127,33 @@ convert = undefined
 
 According to a -> b and b^a, there should be 2^3 or 8 implementations of this
 function.
+
+convert Yes = ?
+convert No = ?
+convert Both = ?
+
+You can replace ? with True or False and there are 2 * 2 * 2 = 2^3 = 8 different
+ways of doing that.
+
+
+Exercises: The Quad
+
+Determine how many unique inhabitants each type has.
+
+1. 8
+eQuad :: Either Quad Quad
+
+2. 4 * 4 = 16
+prodQuad :: (Quad, Quad)
+
+3. 4^4 = 256
+funcQuad :: Quad -> Quad
+
+4. 2 * 2 * 2 = 8
+prodTBool :: (Bool, Bool, Bool)
+
+5. 2 ^ (2 * 2) = 16
+gTwo :: Bool -> Bool -> Bool
+
+6. 4 ^ (4 * 2) = 65536
+fTwo :: Bool -> Quad -> Quad
