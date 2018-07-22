@@ -157,3 +157,15 @@ gTwo :: Bool -> Bool -> Bool
 
 6. 4 ^ (4 * 2) = 65536
 fTwo :: Bool -> Quad -> Quad
+
+
+Chapter Exercises
+
+Multiple Choice
+
+1. a
+2. c
+3. b
+4. d
+
+
