@@ -36,3 +36,13 @@ countTheBeforeVowel s = go (words s) 0
     isVowel ('o':xs) = True
     isVowel ('u':xs) = True
     isVowel _ = False
+
+countVowels :: String -> Integer
+countVowels s = toInteger $ length $ filter isVowel s
+  where
+    isVowel 'a' = True
+    isVowel 'e' = True
+    isVowel 'i' = True
+    isVowel 'o' = True
+    isVowel 'u' = True
+    isVowel _ = False
