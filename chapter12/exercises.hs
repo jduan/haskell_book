@@ -39,10 +39,43 @@ countTheBeforeVowel s = go (words s) 0
 
 countVowels :: String -> Integer
 countVowels s = toInteger $ length $ filter isVowel s
+
+isVowel 'a' = True
+isVowel 'e' = True
+isVowel 'i' = True
+isVowel 'o' = True
+isVowel 'u' = True
+isVowel _ = False
+
+newtype Word' =
+  Word' String
+  deriving (Show, Eq)
+
+mkWord :: String -> Maybe Word'
+mkWord s =
+  if len1 > len2
+    then Nothing
+    else Just $ Word' s
   where
-    isVowel 'a' = True
-    isVowel 'e' = True
-    isVowel 'i' = True
-    isVowel 'o' = True
-    isVowel 'u' = True
-    isVowel _ = False
+    len1 = length $ filter isVowel s
+    len2 = length s - len1
+
+-- Natural numbers
+data Nat
+  = Zero
+  | Succ Nat
+  deriving (Show, Eq)
+
+-- Natural number to Integer
+natToInteger :: Nat -> Integer
+natToInteger Zero = 0
+natToInteger (Succ n) = natToInteger n + 1
+
+-- Integer to Natural number
+integerToNat :: Integer -> Maybe Nat
+integerToNat i
+  | i < 0 = Nothing
+  | i == 0 = Just Zero
+  | otherwise =
+    let (Just n) = integerToNat (i - 1)
+     in Just (Succ n)
