@@ -1,3 +1,5 @@
+import Control.Applicative
+
 ifEvenAdd2 :: Integer -> Maybe Integer
 ifEvenAdd2 n =
   if even n
@@ -41,9 +43,10 @@ nameOkay name
   | otherwise = Left [NameEmpty]
 
 mkPerson3 :: Name -> Age -> Either [PersonInvalid] Person
-mkPerson3 name age =
-  case (nameOkay name, ageOkay age) of
-    (Left errors, Left errors2) -> Left $ errors ++ errors2
-    (Left errors, Right age) -> Left errors
-    (Right name, Left errors) -> Left errors
-    (Right name, Right age) -> Right $ Person name age
+mkPerson3 name age
+  -- case (nameOkay name, ageOkay age) of
+  --   (Left errors, Left errors2) -> Left $ errors ++ errors2
+  --   (Left errors, Right age) -> Left errors
+  --   (Right name, Left errors) -> Left errors
+  --   (Right name, Right age) -> Right $ Person name age
+ = liftA2 Person (nameOkay name) (ageOkay age)
