@@ -79,3 +79,44 @@ integerToNat i
   | otherwise =
     let (Just n) = integerToNat (i - 1)
      in Just (Succ n)
+
+-- Small library for Maybe
+--
+isJust :: Maybe a -> Bool
+isJust Nothing = False
+isJust _ = True
+
+isNothing :: Maybe a -> Bool
+isNothing Nothing = True
+isNothing _ = False
+
+mayybee :: b -> (a -> b) -> Maybe a -> b
+mayybee b f Nothing = b
+mayybee b f (Just a) = f a
+
+fromMaybe :: a -> Maybe a -> a
+fromMaybe a Nothing = a
+fromMaybe a (Just a') = a'
+
+listToMaybe :: [a] -> Maybe a
+listToMaybe [] = Nothing
+listToMaybe (x:_) = Just x
+
+maybeToList :: Maybe a -> [a]
+maybeToList Nothing = []
+maybeToList (Just a) = [a]
+
+catMaybes :: [Maybe a] -> [a]
+catMaybes = foldr f []
+  where
+    f Nothing acc = acc
+    f (Just a) acc = a : acc
+
+flipMaybe :: [Maybe a] -> Maybe [a]
+flipMaybe maybes =
+  if any isNothing maybes
+    then Nothing
+    else Just $ catMaybes maybes
+  where
+    isNothing Nothing = True
+    isNothing _ = False
