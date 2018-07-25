@@ -1,3 +1,5 @@
+import Data.List (foldl', unfoldr)
+
 -- Determine the kinds
 --
 -- 1. a is a polymophic type parameter
@@ -148,3 +150,40 @@ either' f1 f2 (Right b) = f2 b
 
 eitherMaybe'' :: (b -> c) -> Either a b -> Maybe c
 eitherMaybe'' f = either' (const Nothing) (Just . f)
+
+--
+-- unfolds
+--
+mehSum :: Num a => [a] -> a
+mehSum xs = go 0 xs
+  where
+    go :: Num a => a -> [a] -> a
+    go n [] = n
+    go n (x:xs) = go (n + x) xs
+
+niceSum :: Num a => [a] -> a
+niceSum = foldl' (+) 0
+
+mehProduct :: Num a => [a] -> a
+mehProduct xs = go 1 xs
+  where
+    go n [] = n
+    go n (x:xs) = go (n * x) xs
+
+niceProduct :: Num a => [a] -> a
+niceProduct = foldl' (*) 1
+
+--
+-- Write your own iterate and unfoldr
+--
+myIterator :: (a -> a) -> a -> [a]
+myIterator f a = a : myIterator f (f a)
+
+myUnfoldr :: (b -> Maybe (a, b)) -> b -> [a]
+myUnfoldr f b =
+  case f b of
+    Nothing -> []
+    Just (a, b') -> a : myUnfoldr f b'
+
+betterIterate :: (a -> a) -> a -> [a]
+betterIterate f x = myUnfoldr (\a -> Just (a, f a)) x
