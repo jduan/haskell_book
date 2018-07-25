@@ -120,3 +120,31 @@ flipMaybe maybes =
   where
     isNothing Nothing = True
     isNothing _ = False
+
+-- Small library for Either
+--
+lefts' :: [Either a b] -> [a]
+lefts' = foldr f []
+  where
+    f (Left a) acc = a : acc
+    f _ acc = acc
+
+rights' :: [Either a b] -> [b]
+rights' = foldr f []
+  where
+    f (Right b) acc = b : acc
+    f _ acc = acc
+
+partitionEithers' :: [Either a b] -> ([a], [b])
+partitionEithers' eithers = (lefts' eithers, rights' eithers)
+
+eitherMaybe' :: (b -> c) -> Either a b -> Maybe c
+eitherMaybe' f (Left a) = Nothing
+eitherMaybe' f (Right b) = Just $ f b
+
+either' :: (a -> c) -> (b -> c) -> Either a b -> c
+either' f1 f2 (Left a) = f1 a
+either' f1 f2 (Right b) = f2 b
+
+eitherMaybe'' :: (b -> c) -> Either a b -> Maybe c
+eitherMaybe'' f = either' (const Nothing) (Just . f)
