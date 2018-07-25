@@ -187,3 +187,34 @@ myUnfoldr f b =
 
 betterIterate :: (a -> a) -> a -> [a]
 betterIterate f x = myUnfoldr (\a -> Just (a, f a)) x
+
+--
+-- Finally something other than a list!
+--
+data BinaryTree a
+  = Leaf
+  | Node (BinaryTree a)
+         a
+         (BinaryTree a)
+  deriving (Show, Eq, Ord)
+
+-- Given f and a:
+--  apply f to a
+--  if the result is Nothing, return Leaf
+--  otherwise it's a Just (a, b, a), use b as the value of the root node
+--  and call unfold again with f for left and right subtrees.
+unfold :: (a -> Maybe (a, b, a)) -> a -> BinaryTree b
+unfold f a =
+  case f a of
+    Nothing -> Leaf
+    Just (a1, b, a2) -> Node (unfold f a1) b (unfold f a2)
+
+-- Given that we want the value of the root node is 0, and the value
+-- of the first level is1, etc, we need to call "unfold" with an initial
+-- value of 0 instead n.
+treeBuild :: Integer -> BinaryTree Integer
+treeBuild n = unfold f 0
+  where
+    f x
+      | x == n = Nothing
+      | otherwise = Just (x + 1, x, x + 1)
