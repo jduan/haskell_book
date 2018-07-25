@@ -1,6 +1,7 @@
 module Addition where
 
 import Test.Hspec
+import Test.QuickCheck
 
 dividedBy :: Integral a => a -> a -> (a, a)
 dividedBy num denom = go num denom 0
@@ -36,3 +37,6 @@ main =
       it "-3 multiplied by 5 is -15" $ do multiply (-3) 5 `shouldBe` (-15)
       it "-3 multiplied by -5 is 15" $ do multiply (-3) (-5) `shouldBe` 15
       it "3 multiplied by 0 is 0" $ do multiply 3 0 `shouldBe` 0
+    describe "quick check" $ do
+      it "x + 1 is always greater than x" $ do
+        property $ \x -> x + 1 > (x :: Int)
