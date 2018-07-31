@@ -35,13 +35,13 @@ take 3 $ filter odd [1, 3, undefined]
 
 Intermission: Is it in normal form?
 
-1.
-2.
-3.
-4.
-5.
-6.
-7.
+1. normal form
+2. weak head form
+3. neither (because it's a function call)
+4. neither
+5. neither
+6. neither
+7. weak head form
 
 
 Exercises: More Bottoms

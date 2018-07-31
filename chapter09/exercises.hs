@@ -88,7 +88,7 @@ tuples2 = [(x, y) | x <- mySqr, y <- myCube, x < 50, y < 50]
 
 -- Remove all articles ("the", "a", "an")
 myFilter :: String -> [String]
-myFilter sentence = dropArticles $ words sentence
+myFilter = dropArticles . words
   where
     dropArticles = filter (\x -> x `notElem` ["the", "a", "an"])
 
