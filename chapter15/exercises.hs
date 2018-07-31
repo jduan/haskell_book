@@ -58,6 +58,13 @@ instance Semigroup a => Semigroup (Identity a) where
 instance Arbitrary (Identity Trivial) where
   arbitrary = return (Identity Trivial)
 
+data Two a b =
+  Two a
+      b
+  deriving (Show, Eq)
+
+instance Semigroup a
+
 semigroupAssoc :: (Eq m, Semigroup m) => m -> m -> m -> Bool
 semigroupAssoc a b c = (a <> (b <> c)) == ((a <> b) <> c)
 
