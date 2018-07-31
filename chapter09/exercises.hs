@@ -6,6 +6,9 @@ eftBool True False = []
 eftBool False False = [False]
 eftBool True True = [True]
 
+eftBool2 :: Bool -> Bool -> [Bool]
+eftBool2 = eftGeneric2
+
 eftOrd :: Ordering -> Ordering -> [Ordering]
 eftOrd LT LT = [LT]
 eftOrd LT EQ = [LT, EQ]
@@ -15,6 +18,9 @@ eftOrd EQ GT = [EQ, GT]
 eftOrd GT GT = [GT]
 eftOrd _ _ = []
 
+eftOrd2 :: Ordering -> Ordering -> [Ordering]
+eftOrd2 = eftGeneric2
+
 eftGeneric :: (Enum a, Ord a) => a -> a -> [a]
 eftGeneric m n
   | m > n = []
@@ -23,6 +29,12 @@ eftGeneric m n
     go x y lst
       | x == y = x : lst
       | otherwise = go (succ x) y (x : lst)
+
+eftGeneric2 :: (Enum a, Ord a) => a -> a -> [a]
+eftGeneric2 a b
+  | a > b = []
+  | a == b = [a]
+  | a < b = a : eftGeneric2 (succ a) b
 
 eftInt :: Int -> Int -> [Int]
 eftInt = eftGeneric
