@@ -1,5 +1,8 @@
 module Exercises where
 
+import Test.QuickCheck
+import Test.QuickCheck.Function
+
 --
 -- Exercises: Be Kind
 --
@@ -105,3 +108,28 @@ instance Functor (Two a) where
 instance Functor (Or a) where
   fmap f (First a) = First a
   fmap f (Second b) = Second (f b)
+
+--
+-- use quick check to validate Functors
+--
+functorIdentity :: (Functor f, Eq (f a)) => f a -> Bool
+functorIdentity f = fmap id f == f
+
+-- (fmap f) . (fmap g) = fmap (f . g)
+functorCompose :: (Functor f, Eq (f c)) => (b -> c) -> (a -> b) -> f a -> Bool
+functorCompose m n z = ((fmap m) . (fmap n) $ z) == fmap (m . n) z
+
+functorCompose' :: (Eq (f c), Functor f) => Fun b c -> Fun a b -> f a -> Bool
+functorCompose' (Fun _ m) (Fun _ n) f = (fmap m . fmap n) f == fmap (m . n) f
+
+type IntToInt = Fun Int Int
+
+type IntFC = IntToInt -> IntToInt -> [Int] -> Bool
+
+--
+-- run quick check
+main :: IO ()
+main = do
+  quickCheck $ \x -> functorIdentity (x :: [Int])
+  quickCheck $ \x -> functorCompose (+ 1) (* 2) (x :: [Int])
+  quickCheck (functorCompose' :: IntFC)
