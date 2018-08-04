@@ -67,6 +67,7 @@ data CountingBad a =
 --
 instance Functor CountingBad where
   fmap f (Heisenberg n a) = Heisenberg (n + 1) (f a)
+
 --
 --
 -- Exercises: Heavy Lifting
@@ -82,3 +83,25 @@ instance Functor CountingBad where
 -- 5. no idea
 --
 --
+-- This is basically a "tuple" type
+data Two a b =
+  Two a
+      b
+  deriving (Show, Eq)
+
+-- This is basically a "Either" type
+data Or a b
+  = First a
+  | Second b
+  deriving (Show, Eq)
+
+-- "a" is the part of the functorial structure so we're not supposed to
+-- touch "a"
+instance Functor (Two a) where
+  fmap f (Two a b) = Two a (f b)
+
+-- "a" is the part of the functorial structure so we're not supposed to
+-- touch "a"
+instance Functor (Or a) where
+  fmap f (First a) = First a
+  fmap f (Second b) = Second (f b)
