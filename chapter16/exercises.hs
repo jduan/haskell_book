@@ -228,6 +228,43 @@ instance Arbitrary (Four' Int String) where
 -- a higher kinded type!
 --
 --
+-- Maybe
+--
+--
+incIfJust :: Num a => Maybe a -> Maybe a
+incIfJust Nothing = Nothing
+incIfJust (Just a) = Just (a + 1)
+
+showIfJust :: Show a => Maybe a -> Maybe String
+showIfJust Nothing = Nothing
+showIfJust (Just a) = Just (show a)
+
+incIfJust' :: Num a => Maybe a -> Maybe a
+incIfJust' = fmap (+ 1)
+
+showIfJust' :: Show a => Maybe a -> Maybe String
+showIfJust' = fmap show
+
+liftedInc :: (Functor f, Num a) => f a -> f a
+liftedInc = fmap (+ 1)
+
+liftedShow :: (Functor f, Show a) => f a -> f String
+liftedShow = fmap show
+
+--
+--
+-- Exercises: Possibly
+--
+--
+data Possibly a
+  = LolNope
+  | Yeppers a
+  deriving (Show, Eq)
+
+instance Functor Possibly where
+  fmap _ LolNope = LolNope
+  fmap f (Yeppers a) = Yeppers (f a)
+
 main :: IO ()
 main = do
   quickCheck $ \x -> functorIdentity (x :: [Int])
