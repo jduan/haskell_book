@@ -1,3 +1,5 @@
+{-# LANGUAGE FlexibleInstances #-}
+
 module Exercises where
 
 import Test.QuickCheck
@@ -127,9 +129,123 @@ type IntToInt = Fun Int Int
 type IntFC = IntToInt -> IntToInt -> [Int] -> Bool
 
 --
--- run quick check
+--
+-- Exercises: Instances of Functor
+--
+--
+newtype Identity a =
+  Identity a
+  deriving (Show, Eq)
+
+instance Functor Identity where
+  fmap f (Identity a) = Identity (f a)
+
+instance Arbitrary (Identity Int) where
+  arbitrary = frequency [(1, return $ Identity 10), (1, return $ Identity 100)]
+
+data Pair a =
+  Pair a
+       a
+  deriving (Show, Eq)
+
+instance Functor Pair where
+  fmap f (Pair a a') = Pair (f a) (f a')
+
+instance Arbitrary (Pair String) where
+  arbitrary =
+    frequency [(1, return $ Pair "hello" "world"), (1, return $ Pair "hi" "yo")]
+
+-- data type "Two" is implemented further above
+instance Arbitrary (Two Int String) where
+  arbitrary =
+    frequency [(1, return $ Two 1 "hello"), (1, return $ Two 2 "world")]
+
+data Three a b c =
+  Three a
+        b
+        c
+  deriving (Show, Eq)
+
+instance Functor (Three a b) where
+  fmap f (Three a b c) = Three a b (f c)
+
+instance Arbitrary (Three Int String String) where
+  arbitrary =
+    frequency
+      [ (1, return $ Three 1 "hi" "hi")
+      , (1, return $ Three 2 "bye" "bye")
+      , (1, return $ Three 3 "mmm" "mmm")
+      ]
+
+data Three' a b =
+  Three' a
+         b
+         b
+  deriving (Show, Eq)
+
+instance Functor (Three' a) where
+  fmap f (Three' a b b') = Three' a (f b) (f b')
+
+instance Arbitrary (Three' Int String) where
+  arbitrary =
+    frequency
+      [ (1, return $ Three' 1 "hi" "you")
+      , (1, return $ Three' 2 "hello" "world")
+      , (1, return $ Three' 3 "bad" "boy")
+      ]
+
+data Four a b c d =
+  Four a
+       b
+       c
+       d
+  deriving (Show, Eq)
+
+instance Functor (Four a b c) where
+  fmap f (Four a b c d) = Four a b c (f d)
+
+instance Arbitrary (Four Int String Int String) where
+  arbitrary =
+    frequency
+      [(1, return $ Four 1 "hi" 2 "bye"), (1, return $ Four 3 "what" 4 "why")]
+
+data Four' a b =
+  Four' a
+        a
+        a
+        b
+  deriving (Show, Eq)
+
+instance Functor (Four' a) where
+  fmap f (Four' a1 a2 a3 b) = Four' a1 a2 a3 (f b)
+
+instance Arbitrary (Four' Int String) where
+  arbitrary =
+    frequency [(1, return $ Four' 1 2 3 "hi"), (1, return $ Four' 4 5 6 "yo")]
+
+--
+-- 8. You can't write a Functor instance for Trivial because Trivial isn't
+-- a higher kinded type!
+--
+--
 main :: IO ()
 main = do
   quickCheck $ \x -> functorIdentity (x :: [Int])
   quickCheck $ \x -> functorCompose (+ 1) (* 2) (x :: [Int])
   quickCheck (functorCompose' :: IntFC)
+  quickCheck $ \x -> functorIdentity (x :: Identity Int)
+  quickCheck $ \x -> functorCompose (+ 1) (* 2) (x :: Identity Int)
+  quickCheck $ \x -> functorIdentity (x :: Pair String)
+  quickCheck $ \x -> functorCompose (++ "?") (++ "!") (x :: Pair String)
+  quickCheck $ \x -> functorIdentity (x :: Two Int String)
+  quickCheck $ \x -> functorCompose (++ "?") (++ "!") (x :: Two Int String)
+  quickCheck $ \x -> functorIdentity (x :: Three Int String String)
+  quickCheck $ \x ->
+    functorCompose (++ "?") (++ "!") (x :: Three Int String String)
+  quickCheck $ \x -> functorIdentity (x :: Three' Int String)
+  quickCheck $ \x -> functorCompose (++ "?") (++ "!") (x :: Three' Int String)
+  quickCheck $ \x -> functorIdentity (x :: Four Int String Int String)
+  quickCheck $ \x ->
+    functorCompose (++ "?") (++ "!") (x :: Four Int String Int String)
+  quickCheck $ \x -> functorIdentity (x :: Four' Int String)
+  quickCheck $ \x -> functorCompose (++ "?") (++ "!") (x :: Four' Int String)
