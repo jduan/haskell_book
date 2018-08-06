@@ -302,6 +302,18 @@ instance Functor (Sum a) where
 -- is part of the structure itself which you can't change!
 --
 --
+-- Constant is also defined in Data.Functor.Constant
+-- The second type parameter 'b' is a phantom type. It has no corresponding
+-- witness at the value or term level.
+-- The first type argument 'a' to Constant's type constructor is part of
+-- the structure that Functor skips over!
+newtype Constant a b = Constant
+  { getConstant :: a
+  } deriving (Show, Eq)
+
+instance Functor (Constant a) where
+  fmap _ (Constant a) = Constant a
+
 main :: IO ()
 main = do
   quickCheck $ \x -> functorIdentity (x :: [Int])
