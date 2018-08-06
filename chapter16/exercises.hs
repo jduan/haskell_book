@@ -314,6 +314,16 @@ newtype Constant a b = Constant
 instance Functor (Constant a) where
   fmap _ (Constant a) = Constant a
 
+--
+-- More structure, more functors
+--
+newtype Wrap f a =
+  Wrap (f a)
+  deriving (Show, Eq)
+
+instance Functor f => Functor (Wrap f) where
+  fmap f (Wrap fa) = Wrap (fmap f fa)
+
 main :: IO ()
 main = do
   quickCheck $ \x -> functorIdentity (x :: [Int])
