@@ -265,6 +265,43 @@ instance Functor Possibly where
   fmap _ LolNope = LolNope
   fmap f (Yeppers a) = Yeppers (f a)
 
+--
+--
+-- Either
+--
+--
+incIfRight :: Num a => Either e a -> Either e a
+incIfRight (Left e) = Left e
+incIfRight (Right a) = Right (a + 1)
+
+showIfRight :: Show a => Either e a -> Either e String
+showIfRight (Left e) = Left e
+showIfRight (Right a) = Right (show a)
+
+incEither :: Num a => Either e a -> Either e a
+incEither = fmap (+ 1)
+
+showEither :: Show a => Either e a -> Either e String
+showEither = fmap show
+
+--
+-- Short Exercise
+--
+data Sum a b
+  = First' a
+  | Second' b
+  deriving (Show, Eq)
+
+instance Functor (Sum a) where
+  fmap _ (First' a) = First' a
+  fmap f (Second' b) = Second' (f b)
+
+--
+-- 2. You can only implement a Functor instance for a type that has the
+-- kind of * -> *. That means (Either a). In other words, the "Left" case
+-- is part of the structure itself which you can't change!
+--
+--
 main :: IO ()
 main = do
   quickCheck $ \x -> functorIdentity (x :: [Int])
