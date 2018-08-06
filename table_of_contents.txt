@@ -1,0 +1,33 @@
+1        All You Need is Lambda
+2        Hello, Haskell
+3        Strings
+4        Basic datatypes
+5        Types
+6        Typeclasses
+7        More functional patterns
+8        Recursion
+9        Lists
+10       Folding Lists
+
+11       Algebraic datatypes
+12       Signal adversity
+13       Building projects
+14       Testing
+15       Monoid, Semigroup
+16       Functor
+17       Applicative
+18       Monad
+19       Applying structure
+20       Foldable
+
+21       Traversable
+22       Reader
+23       State
+24       Parser combinators
+25       Composing types
+26       Monad transformers
+27       Non-strictness
+28       Basic libraries
+29       IO
+30       When things go wrong
+31       Final project
