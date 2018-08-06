@@ -1,4 +1,5 @@
 {-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE RankNTypes #-}
 
 module Exercises where
 
@@ -340,6 +341,23 @@ bumpIt = do
   intVal <- getInt
   return (intVal + 1)
 
+--
+-- Natural transformation (opposite of Functor)
+-- Transform only the structure and leave the type argument to that
+-- structure or type constructor alone.
+--
+type Nat f g = forall a. f a -> g a
+
+maybeToList :: Nat Maybe []
+maybeToList Nothing = []
+maybeToList (Just a) = [a]
+
+-- This won't work
+-- degenerateMtl :: Nat Maybe []
+-- degenerateMtl Nothing = []
+-- degenerateMtl (Just a) = [a + 1]
+--
+--
 main :: IO ()
 main = do
   quickCheck $ \x -> functorIdentity (x :: [Int])
