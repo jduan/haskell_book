@@ -51,3 +51,20 @@ summed :: Maybe Integer
 -- a tuple is a Foldable
 -- sum (6, 5)
 summed = fmap sum $ (,) <$> x3 <*> y3
+
+--
+-- Identity
+-- Note that there are also:
+-- Control.Monad.Identity
+-- Data.Functor.Identity
+--
+newtype Identity a =
+  Identity a
+  deriving (Show, Eq)
+
+instance Functor Identity where
+  fmap f (Identity a) = Identity (f a)
+
+instance Applicative Identity where
+  pure a = Identity a
+  Identity f <*> Identity a = Identity (f a)
