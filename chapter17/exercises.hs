@@ -68,3 +68,26 @@ instance Functor Identity where
 instance Applicative Identity where
   pure a = Identity a
   Identity f <*> Identity a = Identity (f a)
+
+--
+--
+-- Constant
+-- Note that there is also:
+-- Data.Functor.Constant
+--
+--
+newtype Constant a b = Constant
+  { getConstant :: a
+  } deriving (Show, Eq)
+
+instance Functor (Constant a) where
+  fmap f (Constant a) = Constant a
+
+instance Monoid a => Applicative (Constant a) where
+  pure b = Constant mempty
+  -- Since "b" is ignored, the function application is thrown away.
+  -- It can't do anything because it can only hold onto the one value.
+  -- The function "f" doesn't exist, and the "b" is a ghost. So you use
+  -- this when whatever you want to do involves just throwing away a
+  -- function application.
+  Constant a <*> Constant a' = Constant (a `mappend` a')
