@@ -91,3 +91,13 @@ instance Monoid a => Applicative (Constant a) where
   -- this when whatever you want to do involves just throwing away a
   -- function application.
   Constant a <*> Constant a' = Constant (a `mappend` a')
+--
+--
+-- Exercise: Fixer Upper
+--
+--
+-- 1. const <$> Just "hello" <*> Just "world"
+-- 1. pure const <*> Just "hello" <*> Just "world"
+-- 1. liftA2 const (Just "hello") (Just "world")
+--
+-- 2. (,,,) <$> Just 90 <*> Just 10 <*> Just "Tierness" <*> Just [1,2,3]
