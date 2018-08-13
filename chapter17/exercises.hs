@@ -91,6 +91,7 @@ instance Monoid a => Applicative (Constant a) where
   -- this when whatever you want to do involves just throwing away a
   -- function application.
   Constant a <*> Constant a' = Constant (a `mappend` a')
+
 --
 --
 -- Exercise: Fixer Upper
@@ -101,3 +102,55 @@ instance Monoid a => Applicative (Constant a) where
 -- 1. liftA2 const (Just "hello") (Just "world")
 --
 -- 2. (,,,) <$> Just 90 <*> Just 10 <*> Just "Tierness" <*> Just [1,2,3]
+--
+--
+--
+-- List Applicative Exercise
+--
+--
+data List a
+  = Nil
+  | Cons a
+         (List a)
+  deriving (Show, Eq)
+
+-- instance Applicative List where
+--   pure a = Cons a Nil
+--   Nil <*> _ = Nil
+--   _ <*> Nil = Nil
+--   (Cons x xs) <*> ys = fmap x ys `append` (xs <*> ys)
+instance Functor List where
+  fmap f Nil = Nil
+  fmap f (Cons x xs) = Cons (f x) (fmap f xs)
+
+append :: List a -> List a -> List a
+append Nil xs = xs
+append xs Nil = xs
+append (Cons x xs) ys = Cons x (append xs ys)
+
+--
+-- Another approach
+--
+fold :: (a -> b -> b) -> b -> List a -> b
+fold _ b Nil = b
+fold f b (Cons h t) = f h (fold f b t)
+
+concat' :: List (List a) -> List a
+concat' = fold append Nil
+
+flatMap :: (a -> List b) -> List a -> List b
+flatMap f as = concat' $ fmap f as
+
+instance Applicative List where
+  pure a = Cons a Nil
+  Nil <*> _ = Nil
+  _ <*> Nil = Nil
+  xs <*> ys = flatMap (\x -> fmap x ys) xs
+
+lst1 = Cons 1 (Cons 2 (Cons 3 Nil))
+
+lst2 = Cons 4 (Cons 5 (Cons 6 Nil))
+
+functions = Cons (+ 1) (Cons (* 2) Nil)
+
+values = Cons 1 (Cons 2 Nil)
