@@ -2,6 +2,7 @@ module Exercises where
 
 import Control.Applicative
 import Data.List (elemIndex)
+import Test.QuickCheck.Checkers
 
 --
 --
@@ -151,6 +152,56 @@ lst1 = Cons 1 (Cons 2 (Cons 3 Nil))
 
 lst2 = Cons 4 (Cons 5 (Cons 6 Nil))
 
+-- "functions <*> values"
+-- should return
+-- Cons 2 (Cons 3 (Cons 2 (Cons 4 Nil)))
 functions = Cons (+ 1) (Cons (* 2) Nil)
 
 values = Cons 1 (Cons 2 Nil)
+
+--
+--
+-- ZipList Applicative Exercise
+--
+--
+take' :: Int -> List a -> List a
+take' 0 _ = Nil
+take' _ Nil = Nil
+take' n (Cons h t) = Cons h (take' (n - 1) t)
+
+newtype ZipList' a =
+  ZipList' (List a)
+  deriving (Show, Eq)
+
+instance Eq a => EqProp (ZipList' a) where
+  xs =-= ys = xs' `eq` ys'
+    where
+      xs' =
+        let (ZipList' l) = xs
+         in take' 3000 l
+      ys' =
+        let (ZipList' l) = ys
+         in take' 3000 l
+
+instance Functor ZipList' where
+  fmap f (ZipList' xs) = ZipList' $ fmap f xs
+
+instance Applicative ZipList' where
+  pure a = ZipList' (Cons a Nil)
+  ZipList' xs <*> ZipList' ys = ZipList' (go xs ys)
+  -- this is the key thing!
+    where
+      go Nil _ = Nil
+      go _ Nil = Nil
+      go (Cons x xs) (Cons y ys) = Cons (x y) (go xs ys)
+
+zlist1 = ZipList' (Cons (+ 9) (Cons (* 2) (Cons (+ 8) Nil)))
+
+zlist2 = ZipList' (Cons 1 (Cons 2 (Cons 3 Nil)))
+
+zlist3 = ZipList' (Cons 1 (Cons 2 (Cons 3 (Cons 4 (Cons 5 Nil)))))
+--
+-- zlist1 <*> zlist2
+-- zlist1 <*> zlist3
+-- both should return:
+-- ZipList' (Cons 10 (Cons 4 (Cons 11 Nil)))
