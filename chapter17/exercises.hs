@@ -251,3 +251,141 @@ instance Monoid e => Applicative (Validation e) where
   Success f <*> Failure e = Failure e
   Failure e <*> Success f = Failure e
   Failure e <*> Failure e' = Failure (e `mappend` e')
+
+---
+--
+-- Chapter Exercises
+--
+--
+-- 1.
+pure1 :: a -> [a]
+pure1 a = [a]
+
+apply1 :: [] (a -> b) -> [] a -> [] b
+apply1 fs xs = fs <*> xs
+
+-- 2.
+pure2 :: a -> IO a
+pure2 a = pure a
+
+apply2 :: IO (a -> b) -> IO a -> IO b
+apply2 iof ioa = iof <*> ioa
+
+-- 3.
+pure3 :: Monoid a => b -> (,) a b
+pure3 b = (mempty, b)
+
+apply3 :: Monoid t => (,) t (a -> b) -> (,) t a -> (,) t b
+apply3 tf t = tf <*> t
+
+-- 4. Not sure if this works
+pure4 :: a -> (e -> a)
+pure4 a = \x -> a
+
+apply4 :: (->) x (a -> b) -> (->) x a -> (->) x b
+apply4 ff fa = ff <*> fa
+
+--
+--
+--
+-- Write Applicative instances for the following datatypes.
+--
+--
+-- 1.
+data Pair a =
+  Pair a
+       a
+  deriving (Show, Eq)
+
+instance Functor Pair where
+  fmap f (Pair a a') = Pair (f a) (f a')
+
+instance Applicative Pair where
+  pure a = Pair a a
+  (Pair f f') <*> (Pair a a') = Pair (f a) (f' a')
+
+-- 2.
+data Two a b =
+  Two a
+      b
+  deriving (Show, Eq)
+
+instance Functor (Two a) where
+  fmap f (Two a b) = Two a (f b)
+
+instance Monoid a => Applicative (Two a) where
+  pure b = Two mempty b
+  Two a b <*> Two a' b' = Two (a `mappend` a') (b b')
+
+data Three a b c =
+  Three a
+        b
+        c
+  deriving (Show, Eq)
+
+instance Functor (Three a b) where
+  fmap f (Three a b c) = Three a b (f c)
+
+instance (Monoid a, Monoid b) => Applicative (Three a b) where
+  pure c = Three mempty mempty c
+  Three a b c <*> Three a' b' c' =
+    Three (a `mappend` a') (b `mappend` b') (c c')
+
+data Three' a b =
+  Three' a
+         b
+         b
+  deriving (Show, Eq)
+
+instance Functor (Three' a) where
+  fmap f (Three' a b b') = Three' a (f b) (f b')
+
+instance Monoid a => Applicative (Three' a) where
+  pure b = Three' mempty b b
+  Three' a b1 b2 <*> Three' a' b1' b2' =
+    Three' (a `mappend` a') (b1 b1') (b2 b2')
+
+data Four a b c d =
+  Four a
+       b
+       c
+       d
+  deriving (Show, Eq)
+
+instance Functor (Four a b c) where
+  fmap f (Four a b c d) = Four a b c (f d)
+
+instance (Monoid a, Monoid b, Monoid c) => Applicative (Four a b c) where
+  pure d = Four mempty mempty mempty d
+  Four a b c d <*> Four a' b' c' d' =
+    Four (a `mappend` a') (b `mappend` b') (c `mappend` c') (d d')
+
+data Four' a b =
+  Four' a
+        a
+        a
+        b
+  deriving (Show, Eq)
+
+instance Functor (Four' a) where
+  fmap f (Four' a1 a2 a3 b) = Four' a1 a2 a3 (f b)
+
+instance Monoid a => Applicative (Four' a) where
+  pure b = Four' mempty mempty mempty b
+  Four' a1 a2 a3 b <*> Four' a1' a2' a3' b' =
+    Four' (a1 `mappend` a1') (a2 `mappend` a2') (a3 `mappend` a3') (b b')
+
+--
+--
+-- Combinations
+--
+--
+--
+stops :: String
+stops = "pbtdkg"
+
+vowels :: String
+vowels = "aeiou"
+
+combos :: [a] -> [b] -> [c] -> [(a, b, c)]
+combos as bs cs = liftA3 (,,) as bs cs
