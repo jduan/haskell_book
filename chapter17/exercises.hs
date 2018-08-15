@@ -200,8 +200,54 @@ zlist1 = ZipList' (Cons (+ 9) (Cons (* 2) (Cons (+ 8) Nil)))
 zlist2 = ZipList' (Cons 1 (Cons 2 (Cons 3 Nil)))
 
 zlist3 = ZipList' (Cons 1 (Cons 2 (Cons 3 (Cons 4 (Cons 5 Nil)))))
+
 --
 -- zlist1 <*> zlist2
 -- zlist1 <*> zlist3
 -- both should return:
 -- ZipList' (Cons 10 (Cons 4 (Cons 11 Nil)))
+--
+--
+-- Like Either!
+data Validation err a
+  = Failure err
+  | Success a
+  deriving (Show, Eq)
+
+validToEither :: Validation e a -> Either e a
+validToEither (Failure err) = Left err
+validToEither (Success a) = Right a
+
+eitherToValid :: Either e a -> Validation e a
+eitherToValid (Left err) = Failure err
+eitherToValid (Right a) = Success a
+
+data Errors
+  = DividedByZero
+  | StackOverflow
+  | MooglesChewedWires
+  deriving (Show, Eq)
+
+success :: Validation String Int
+success = Success (+ 1) <*> Success 1
+
+failure = Success (+ 1) <*> Failure [StackOverflow]
+
+failure' = Failure [StackOverflow] <*> Success (+ 1)
+
+failures = Failure [MooglesChewedWires] <*> Failure [StackOverflow]
+
+-- same as Either
+instance Functor (Validation e) where
+  fmap f (Failure e) = Failure e
+  fmap f (Success a) = Success (f a)
+
+-- Rather than just short-circuiting when it has 2 error values, it'll use
+-- the Monoid typeclass to combine them. Often this will just be a list or
+-- set of errors but you can do whatever you want.
+instance Monoid e => Applicative (Validation e) where
+  pure a = Success a
+  Success f <*> Success a = Success (f a)
+  Success f <*> Failure e = Failure e
+  Failure e <*> Success f = Failure e
+  Failure e <*> Failure e' = Failure (e `mappend` e')
