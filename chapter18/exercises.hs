@@ -157,3 +157,42 @@ mkSphericalCow''' name' age' weight'
       maybeCow =
         Cow <$> noEmpty name' <*> noNegative age' <*> noNegative weight'
    in maybeCow >>= weightCheck
+
+--
+-- contrast Applicative and Monad
+--
+f :: Integer -> Maybe Integer
+f 0 = Nothing
+f n = Just n
+
+g :: Integer -> Maybe Integer
+g i =
+  if even i
+    then Just (i + 1)
+    else Nothing
+
+h :: Integer -> Maybe String
+h i = Just ("10191" ++ show i)
+
+doSomething' :: Integer -> Maybe (Integer, Integer, String)
+doSomething' n = do
+  a <- f n
+  b <- g a
+  c <- h b
+  pure (a, b, c)
+
+-- doSomething' and doSomething look similar but they return different
+-- things!
+doSomething ::
+     Applicative f => Integer -> f (Maybe Integer, Maybe Integer, Maybe String)
+doSomething n =
+  let a = f n
+      b =
+        case a of
+          Just i -> g i
+          _ -> Nothing
+      c =
+        case b of
+          Just j -> h j
+          _ -> Nothing
+   in pure (a, b, c)
