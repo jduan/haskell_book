@@ -89,6 +89,12 @@ instance Functor CountingBad where
 -- 5. no idea
 --
 --
+e :: IO Integer
+e =
+  let ioi = readIO "1" :: IO Integer
+      changed = fmap (read . ("123" ++) . show) ioi
+   in fmap (* 3) changed
+
 -- This is basically a "tuple" type
 data Two a b =
   Two a
