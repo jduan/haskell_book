@@ -102,6 +102,73 @@ fold' = foldr mappend mempty
 foldMap' :: (Foldable t, Monoid m) => (a -> m) -> t a -> m
 foldMap' f = foldr (\a b -> f a `mappend` b) mempty
 
+--
+--
+-- Chapter Exercises
+--
+--
+newtype Constant a b =
+  Constant a
+  deriving (Show, Eq)
+
+instance Foldable (Constant a) where
+  foldr f acc (Constant a) = acc
+  foldl f acc (Constant a) = acc
+  foldMap f (Constant a) = mempty
+
+data Two a b =
+  Two a
+      b
+  deriving (Show, Eq)
+
+instance Foldable (Two a) where
+  foldr f acc (Two a b) = f b acc
+  foldl f acc (Two a b) = f acc b
+  foldMap f (Two a b) = f b
+
+data Three a b c =
+  Three a
+        b
+        c
+  deriving (Show, Eq)
+
+instance Foldable (Three a b) where
+  foldr f acc (Three a b c) = f c acc
+  foldl f acc (Three a b c) = f acc c
+  foldMap f (Three a b c) = f c
+
+data Three' a b =
+  Three' a
+         b
+         b
+  deriving (Show, Eq)
+
+instance Foldable (Three' a) where
+  foldr f acc (Three' a b b') = f b acc
+  foldl f acc (Three' a b b') = f acc b'
+  foldMap f (Three' a b b') = f b'
+
+data Four' a b =
+  Four' a
+        b
+        b
+        b
+  deriving (Show, Eq)
+
+instance Foldable (Four' a) where
+  foldr f acc (Four' a b1 b2 b3) = f b1 acc
+  foldl f acc (Four' a b1 b2 b3) = f acc b1
+  foldMap f (Four' a b1 b2 b3) = f b1
+
+filterF ::
+     (Applicative f, Foldable t, Monoid (f a)) => (a -> Bool) -> t a -> f a
+filterF g =
+  foldMap
+    (\x ->
+       if g x
+         then pure x
+         else mempty)
+
 main :: IO ()
 main = do
   print $ sum' [1 .. 10] == 55
@@ -125,3 +192,17 @@ main = do
   print $ fold' [Product 1, Product 2, Product 3, Product 4] == Product 24
   print $ foldMap' Sum [1 .. 5] == Sum 15
   print $ foldMap' Product [1 .. 5] == Product 120
+  print $ foldr (+) 100 (Constant 3) == 100
+  print $ foldr (++) "hi" (Constant 3) == "hi"
+  print $ foldl (+) 100 (Constant 3) == 100
+  print $ foldl (++) "hi" (Constant 3) == "hi"
+  print $ foldMap Sum (Constant 3) == Sum 0
+  print $ foldMap Product (Constant 3) == Product 1
+  print $ foldr (+) 1 (Two "hi" 3) == 4
+  print $ foldl (+) 1 (Two "hi" 3) == 4
+  print $ foldMap Sum (Two "hi" 3) == Sum 3
+  print $ foldr (+) 1 (Three "hi" "yo" 3) == 4
+  print $ foldl (+) 1 (Three "hi" "yo" 3) == 4
+  print $ foldMap Sum (Three "hi" "yo" 3) == Sum 3
+  print $ (filterF even [1 .. 4] :: Sum Int) == Sum 6
+  print $ (filterF even [1 .. 4] :: [] Int) == [2, 4]
