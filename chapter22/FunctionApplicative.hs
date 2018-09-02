@@ -1,5 +1,7 @@
 module FunctionApplicative where
 
+import Control.Applicative
+
 --
 -- demo of function applicative
 --
@@ -45,3 +47,18 @@ getDogR = Dog <$> dogName <*> address
 getDogR' :: Person -> Dog
 -- liftA2 :: Applicative f => (a -> b -> c) -> f a -> f b -> f c
 getDogR' = liftA2 Dog dogName address
+
+-- with Reader Monad
+getDogRM :: Person -> Dog
+getDogRM = do
+  name <- dogName
+  addy <- address
+  return $ Dog name addy
+
+getDogRM'' person = f 1
+  where
+    f :: p -> Dog
+    f =
+      return person >>= \p ->
+        (\r -> dogName p) >>= \name ->
+          (\r -> address person) >>= \addy r -> Dog name addy
