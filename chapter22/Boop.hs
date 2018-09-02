@@ -52,3 +52,13 @@ tupled' = do
 
 tupled'' :: String -> (String, String)
 tupled'' s = ("", "") >>= (\_ -> ("", cap s)) >>= (\s' -> (s', reverse s))
+
+newtype Reader r a = Reader
+  { runReader :: r -> a
+  }
+
+instance Functor (Reader r) where
+  fmap f (Reader ra) = Reader (f . ra)
+
+ask :: Reader a a
+ask = Reader id
