@@ -68,6 +68,18 @@ sequenceA' :: (Applicative f) => [f a] -> f [a]
 sequenceA' [] = pure []
 sequenceA' (x:xs) = (:) <$> x <*> sequenceA' xs
 
+addStuff :: Int -> Int
+addStuff = do
+  a <- (* 2)
+  b <- (+ 10)
+  return (a + b)
+
+addStuff' :: Int -> String
+addStuff' = do
+  a <- (* 2)
+  b <- (++ "!") . show
+  return (show a ++ b)
+
 main = do
   line <- fmap (intersperse '-' . reverse . map toUpper) getLine
   putStrLn line
