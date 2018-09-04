@@ -49,3 +49,11 @@ helloWorld = do
 
 -- Start the Reader and provide an input of 99.
 runHelloWorld = runReader helloWorld 99
+
+-- You can also run "hello" directly.
+runHello = runReader hello 99--
+-- This is how the line above works:
+-- When you call "runReader hello 99", you pass 99 to the "hello" monad
+-- "ask" is a Monad that wraps "id", so "env" gets assigned to 99
+-- then you "return" a Reader Monad that wraps a function that returns
+-- "hello 99!"
