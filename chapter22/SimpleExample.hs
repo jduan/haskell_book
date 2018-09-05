@@ -48,7 +48,7 @@ byebye = do
 
 -- Asks for an "Int" from the shared environment
 -- Returns a "String" wrapped in a Reader Monad
--- It uses "hello" and "world" to do the actual work!
+-- It uses other "Reader"s to do the actual work!
 helloWorld :: Reader Int String
 helloWorld = do
   h <- hello
