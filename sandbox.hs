@@ -84,11 +84,20 @@ maybeFunc1 :: String -> Either String Int
 maybeFunc1 "" = Left "String cannot be empty!"
 maybeFunc1 str = Right $ length str
 
-maybeFunc2 :: Int -> Either String Float
+newtype CustomError =
+  CustomError String
+  deriving (Show, Eq)
+
+maybeFunc2 :: Int -> Either CustomError Float
 maybeFunc2 i =
   if i `mod` 2 == 0
-    then Left "Length cannot be even!"
+    then Left $ CustomError "Length cannot be even!"
     else Right (fromIntegral i * 3.14159)
+
+-- This demos how to massage "maybeFunc2" so it can be used in runMaybeFuncs
+maybeFunc2' :: Either CustomError Float -> Either String Float
+maybeFunc2' (Left (CustomError s)) = Left s
+maybeFunc2' (Right f) = Right f
 
 maybeFunc3 :: Float -> Either String [Int]
 maybeFunc3 f =
@@ -99,7 +108,7 @@ maybeFunc3 f =
 runMaybeFuncs :: String -> Either String [Int]
 runMaybeFuncs input = do
   i <- maybeFunc1 input
-  f <- maybeFunc2 i
+  f <- maybeFunc2' $ maybeFunc2 i
   maybeFunc3 f
 
 main = do
