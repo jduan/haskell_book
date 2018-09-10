@@ -80,6 +80,28 @@ addStuff' = do
   b <- (++ "!") . show
   return (show a ++ b)
 
+maybeFunc1 :: String -> Either String Int
+maybeFunc1 "" = Left "String cannot be empty!"
+maybeFunc1 str = Right $ length str
+
+maybeFunc2 :: Int -> Either String Float
+maybeFunc2 i =
+  if i `mod` 2 == 0
+    then Left "Length cannot be even!"
+    else Right (fromIntegral i * 3.14159)
+
+maybeFunc3 :: Float -> Either String [Int]
+maybeFunc3 f =
+  if f > 15.0
+    then Left "Float is too large!"
+    else Right [floor f, ceiling f]
+
+runMaybeFuncs :: String -> Either String [Int]
+runMaybeFuncs input = do
+  i <- maybeFunc1 input
+  f <- maybeFunc2 i
+  maybeFunc3 f
+
 main = do
   line <- fmap (intersperse '-' . reverse . map toUpper) getLine
   putStrLn line
