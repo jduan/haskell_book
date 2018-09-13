@@ -58,10 +58,25 @@ evalM (And e1 e2) =
 evalM (Or e1 e2) =
   evalM e1 >>= \b1 -> evalM e2 >>= \b2 -> tell (Sum 1) >> return (b1 || b2)
 
+evalM' :: Expr -> Writer (Sum Int) Bool
+evalM' (Constant b) = return b
+evalM' (And e1 e2) = do
+  b1 <- evalM' e1
+  b2 <- evalM' e2
+  tell 1
+  return (b1 && b2)
+evalM' (Or e1 e2) = do
+  b1 <- evalM' e1
+  b2 <- evalM' e2
+  tell 1
+  return (b1 || b2)
+
 main :: IO ()
 main = do
   let e1 = And (Constant True) (Constant False)
-      e2 = Or (Constant False) (Constant True)
-      e3 = And e1 e2
-      e = evalM e3
-   in print $ runWriter e
+  let e2 = Or (Constant False) (Constant True)
+  let e3 = And e1 e2
+  let e = evalM e3
+  let e' = evalM' e3
+  print (runWriter e)
+  print (runWriter e')
