@@ -19,21 +19,25 @@ intToDie :: Int -> Die
 intToDie n =
   case n of
     1 -> DieOne
-    2 -> DieOne
-    3 -> DieOne
-    4 -> DieOne
-    5 -> DieOne
-    6 -> DieOne
+    2 -> DieTwo
+    3 -> DieThree
+    4 -> DieFour
+    5 -> DieFive
+    6 -> DieSix
     x -> error $ "intToDie got non 1-6 integer: " ++ show x
 
 rollDieThreeTimes :: (Die, Die, Die)
-rollDieThreeTimes = do
+rollDieThreeTimes =
   let s = mkStdGen 0
       (d1, s1) = randomR (1, 6) s
       (d2, s2) = randomR (1, 6) s1
       (d3, s3) = randomR (1, 6) s2
    in (intToDie d1, intToDie d2, intToDie d3)
 
+-- You can call it like this:
+-- evalState rollDie (mkStdGen 0)
+-- and it returns:
+-- DieSix
 rollDie :: State StdGen Die
 rollDie =
   state $ do
@@ -45,3 +49,18 @@ rollDie' = intToDie <$> state (randomR (1, 6))
 
 rollDieThreeTimes' :: State StdGen (Die, Die, Die)
 rollDieThreeTimes' = liftA3 (,,) rollDie rollDie rollDie
+
+infiniteDie :: State StdGen [Die]
+infiniteDie = repeat <$> rollDie
+
+nDie :: Int -> State StdGen [Die]
+nDie n = replicateM n rollDie
+
+-- rollsToGetTwenty :: StdGen -> Int
+-- rollsToGetTwenty g = go 0 0 g
+--
+-- State Monad
+--
+newtype Moi s a = Moi
+  { runMoi :: s -> (a, s)
+  }
