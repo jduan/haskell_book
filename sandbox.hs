@@ -111,6 +111,17 @@ runMaybeFuncs input = do
   f <- maybeFunc2' $ maybeFunc2 i
   maybeFunc3 f
 
+repeatN 0 a = return ()
+repeatN n a = a >> repeatN (n - 1) a
+
+test = repeatN 3 $ do putStrLn "TEST"
+
+repeatN' 0 a = return ()
+repeatN' n a = (a n) >> repeatN' (n - 1) a
+
+test' = repeatN' 3 $ \i -> do putStrLn $ "TEST: " ++ (show i)
+
 main = do
-  line <- fmap (intersperse '-' . reverse . map toUpper) getLine
-  putStrLn line
+  putStrLn "hello, world"
+  test
+  test'
